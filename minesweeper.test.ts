@@ -1,8 +1,11 @@
 import { assertEquals, assertThrows } from "jsr:@std/assert";
 
 export function minesweeper(input: string): string {
-    if (!input.includes("\n")) {
-        const row = input;
+    const lines = input.split("\n");
+
+    // horizontal
+    if (lines.length === 1) {
+        const row = lines[0];
         let result = "";
         for (let i = 0; i < row.length; i++) {
             if (row[i] === "*") {
@@ -15,6 +18,18 @@ export function minesweeper(input: string): string {
             }
         }
         return result;
+    }
+
+    // vertical
+    if (lines.length === 2 && lines[0].length === 1 && lines[1].length === 1) {
+        const top = lines[0];
+        const bottom = lines[1];
+        const result = [];
+
+        result.push(top === "*" ? "*" : (bottom === "*" ? "1" : "0"));
+        result.push(bottom === "*" ? "*" : (top === "*" ? "1" : "0"));
+
+        return result.join("\n");
     }
 
     return "";
@@ -47,5 +62,11 @@ Deno.test("1x2 avec une mine à gauche", () => {
 Deno.test("1x3 avec une mine au centre", () => {
     const input = ".*.";
     const expected = "1*1";
+    assertEquals(minesweeper(input), expected);
+});
+
+Deno.test("2x1 avec une mine en haut", () => {
+    const input = "*\n.";
+    const expected = "*\n1";
     assertEquals(minesweeper(input), expected);
 });
