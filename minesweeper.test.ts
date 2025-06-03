@@ -70,3 +70,9 @@ Deno.test("2x1 avec une mine en haut", () => {
     const expected = "*\n1";
     assertEquals(minesweeper(input), expected);
 });
+
+Deno.test("2x1 avec une mine en bas", () => {
+    const input = ".\n*";
+    const expected = "1\n*";
+    assertEquals(minesweeper(input), expected);
+});
